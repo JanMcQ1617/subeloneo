@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SÚBELO NEO — Grammy-Winning Production Duo | Puerto Rico</title>
+<meta name="description" content="Súbelo NEO — the Grammy-winning Puerto Rican production duo behind 20+ billion streams. Producers for Bad Bunny, Karol G, Anitta, Rauw Alejandro & more.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🔊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#05070D;
+  --bg-2:#0B101B;
+  --ink:#F4F1EA;
+  --muted:rgba(244,241,234,.55);
+  --faint:rgba(244,241,234,.14);
+  --pink:#FF4438;
+  --teal:#5BC0FF;
+  --violet:#FFB03B;
+  --gold:#FFD84D;
+  --grad:linear-gradient(92deg,var(--pink),var(--violet) 50%,var(--teal));
+  --font-display:'Unbounded',sans-serif;
+  --font-body:'Bricolage Grotesque',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+body.locked{overflow:hidden}
+::selection{background:var(--pink);color:#05070D}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+
+/* film grain */
+body::after{
+  content:"";position:fixed;inset:-50%;z-index:2000;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ============ PRELOADER ============ */
+#preloader{
+  position:fixed;inset:0;z-index:3000;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+  transition:transform 1s var(--ease),visibility 1s;
+}
+#preloader.done{transform:translateY(-101%);visibility:hidden}
+.eq{display:flex;align-items:flex-end;gap:6px;height:64px}
+.eq span{width:8px;border-radius:4px;background:var(--grad);animation:eq 0.9s ease-in-out infinite}
+.eq span:nth-child(1){animation-delay:0s}.eq span:nth-child(2){animation-delay:.15s}
+.eq span:nth-child(3){animation-delay:.3s}.eq span:nth-child(4){animation-delay:.45s}
+.eq span:nth-child(5){animation-delay:.6s}
+@keyframes eq{0%,100%{height:18%}50%{height:100%}}
+.pre-name{font-family:var(--font-display);font-weight:700;font-size:clamp(1.1rem,2.6vw,1.8rem);letter-spacing:.2em;text-indent:.2em}
+.pre-pct{font-variant-numeric:tabular-nums;color:var(--muted);letter-spacing:.2em;font-size:.8rem}
+
+/* ============ CURSOR ============ */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:2500;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--teal)}
+.cursor-ring{width:38px;height:38px;border:1px solid rgba(244,241,234,.4);transition:width .3s,height .3s,border-color .3s,background .3s}
+.cursor-ring.hot{width:64px;height:64px;border-color:var(--pink);background:rgba(255,68,56,.08)}
+@media (hover:none),(max-width:900px){.cursor-dot,.cursor-ring{display:none}}
+
+/* ============ SCROLL PROGRESS ============ */
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:2400;transform-origin:0 50%;transform:scaleX(0);background:var(--grad)}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem clamp(1.2rem,4vw,3rem);
+  transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{background:rgba(5,7,13,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--faint)}
+.nav-logo{font-family:var(--font-display);font-weight:700;font-size:.85rem;letter-spacing:.14em;display:flex;align-items:center;gap:.6rem}
+.nav-logo .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px var(--pink)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:color .3s;position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--grad);transition:width .35s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  padding:.75rem 1.4rem;border-radius:100px;color:var(--ink);
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,var(--grad) border-box;
+  border:1px solid transparent;transition:transform .3s var(--ease),box-shadow .3s;
+  display:inline-block;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,68,56,.3)}
+.burger{display:none;background:none;border:0;width:40px;height:40px;position:relative;z-index:1200}
+.burger span{position:absolute;left:8px;right:8px;height:2px;background:var(--ink);transition:.35s var(--ease)}
+.burger span:nth-child(1){top:14px}.burger span:nth-child(2){top:24px}
+.burger.open span:nth-child(1){top:19px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){top:19px;transform:rotate(-45deg)}
+#mobile-menu{
+  position:fixed;inset:0;z-index:1100;background:rgba(5,7,13,.96);backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4rem;
+  opacity:0;visibility:hidden;transition:opacity .45s,visibility .45s;
+}
+#mobile-menu.open{opacity:1;visibility:visible}
+#mobile-menu a{font-family:var(--font-display);font-weight:800;font-size:clamp(1.4rem,6vw,2.2rem);letter-spacing:.02em;color:var(--ink)}
+#mobile-menu a em{font-style:normal;color:var(--pink);font-size:.5em;vertical-align:super;margin-right:.5rem}
+@media (max-width:900px){.nav-links,.nav-cta{display:none}.burger{display:block}}
+
+/* ============ GENERIC ============ */
+section{position:relative}
+.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(1.2rem,4vw,3rem)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.8rem;
+  font-size:.75rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-bottom:1.6rem;
+}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--grad)}
+.eyebrow b{color:var(--teal);font-weight:600}
+.h-giant{font-family:var(--font-display);font-weight:900;text-transform:uppercase;line-height:1.04;letter-spacing:-.015em}
+.outline{color:transparent;-webkit-text-stroke:1.5px rgba(244,241,234,.85)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(42px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.12s}.reveal[data-delay="2"]{transition-delay:.24s}
+.reveal[data-delay="3"]{transition-delay:.36s}.reveal[data-delay="4"]{transition-delay:.48s}
+/* masked line reveal for big headings */
+.reveal.mask{transform:none;clip-path:inset(-6% -6% 104% -6%);transition:opacity .9s var(--ease),clip-path 1.1s var(--ease)}
+.reveal.mask.in{clip-path:inset(-6% -6% -10% -6%)}
+
+/* ============ HERO ============ */
+#hero{min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:7.5rem 0 4.5rem}
+#wave{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+#hero::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 90% 60% at 50% 110%,rgba(255,176,59,.13),transparent 60%),
+             linear-gradient(180deg,rgba(5,7,13,.4),rgba(5,7,13,0) 30%,rgba(5,7,13,.55) 85%,var(--bg));
+}
+.hero-inner{position:relative;z-index:2;width:100%}
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(2rem,4vw,4rem);align-items:center}
+.status-row{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;margin-bottom:2rem;opacity:0}
+.hero-status{
+  display:inline-flex;align-items:center;gap:.7rem;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+  padding:.65rem 1.2rem;border-radius:100px;border:1px solid var(--faint);
+  background:rgba(5,7,13,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.beat-toggle{
+  display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;
+  font-family:var(--font-body);font-weight:600;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--pink);padding:.65rem 1.15rem;border-radius:100px;
+  border:1px solid rgba(255,68,56,.4);background:rgba(255,68,56,.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:background .3s,border-color .3s,box-shadow .3s;
+}
+.beat-toggle:hover{background:rgba(255,68,56,.15);box-shadow:0 6px 24px rgba(255,68,56,.2)}
+.beat-toggle .bt-eq{display:none;align-items:flex-end;gap:2px;height:12px}
+.beat-toggle .bt-eq i{width:3px;border-radius:2px;background:var(--pink);animation:eq .8s ease-in-out infinite}
+.beat-toggle .bt-eq i:nth-child(2){animation-delay:.2s}
+.beat-toggle .bt-eq i:nth-child(3){animation-delay:.4s}
+.beat-toggle.playing .bt-eq{display:flex}
+.beat-toggle.playing .bt-play{display:none}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--pink);position:relative;box-shadow:0 0 10px var(--pink)}
+.pulse-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--pink);animation:ping 1.8s ease-out infinite}
+@keyframes ping{0%{transform:scale(.55);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+.hero-type{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,8.6vw,8rem);line-height:1.05;letter-spacing:-.015em;margin-left:-.03em}
+.trow{display:flex}
+.ch{display:inline-block;opacity:0;transform:translateY(110%) rotate(4deg);will-change:transform}
+.trow-neo .ch{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+#hero.on .ch{animation:rise 1s var(--ease) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes riseSoft{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.hero-desc{max-width:46ch;color:var(--muted);font-size:1.02rem;font-weight:300;margin-top:1.8rem;opacity:0}
+.hero-desc strong{color:var(--ink);font-weight:600}
+.hero-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:2.2rem;opacity:0}
+.cta-ghost{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--font-display);font-weight:700;font-size:clamp(.85rem,1.3vw,1.05rem);letter-spacing:.06em;text-transform:uppercase;
+  padding:1.4rem 2.4rem;border-radius:100px;color:var(--ink);border:1px solid rgba(244,241,234,.25);
+  transition:border-color .3s,background .3s;
+}
+.cta-ghost:hover{border-color:var(--ink);background:rgba(244,241,234,.05)}
+#hero.on .status-row{animation:riseSoft .8s var(--ease) .15s forwards}
+#hero.on .hero-desc{animation:riseSoft .8s var(--ease) .55s forwards}
+#hero.on .hero-ctas{animation:riseSoft .8s var(--ease) .7s forwards}
+.hero-visual{position:relative;opacity:0}
+#hero.on .hero-visual{animation:riseSoft 1s var(--ease) .45s forwards}
+.hero-photo{
+  border-radius:26px;overflow:hidden;border:1px solid rgba(244,241,234,.12);
+  box-shadow:0 44px 110px rgba(0,0,0,.65);
+  transform:translate(var(--px,0px),var(--py,0px));
+  max-width:520px;margin-left:auto;
+}
+.hero-photo img{width:100%;aspect-ratio:5/6;object-fit:cover;object-position:top;filter:grayscale(60%) contrast(1.05);transition:filter .7s var(--ease)}
+.hero-visual:hover .hero-photo img{filter:none}
+.float-chip{
+  position:absolute;z-index:2;
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;color:var(--ink);
+  padding:.75rem 1.15rem;border-radius:100px;
+  border:1px solid rgba(244,241,234,.18);background:rgba(5,7,13,.6);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transform:translate(var(--px,0px),var(--py,0px));
+  box-shadow:0 14px 40px rgba(0,0,0,.4);
+}
+.float-chip>span{display:block;animation:floaty 5.5s ease-in-out infinite alternate}
+.float-chip:nth-child(3)>span{animation-delay:1.2s}
+.float-chip:nth-child(4)>span{animation-delay:2.4s}
+@keyframes floaty{from{transform:translateY(3px)}to{transform:translateY(-6px)}}
+.fc-gold{color:var(--gold);border-color:rgba(255,216,77,.35)}
+.fc1{top:4%;left:-9%}
+.fc2{bottom:10%;left:-13%}
+.fc3{top:42%;right:-5%;color:var(--teal);border-color:rgba(91,192,255,.3)}
+@media (max-width:1150px){.fc2{left:-4%}}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:3rem}
+  .hero-type{font-size:clamp(2.8rem,14vw,5rem)}
+  .hero-photo{margin:0 auto;max-width:430px}
+  .fc1{left:2%}.fc2{left:0;bottom:6%}.fc3{right:0}
+  #hero{padding-top:6.5rem}
+}
+.scroll-cue{
+  position:absolute;bottom:2.2rem;right:clamp(1.2rem,4vw,3rem);z-index:3;
+  display:flex;align-items:center;gap:.8rem;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
+  writing-mode:vertical-rl;
+}
+.scroll-cue::after{content:"";width:1px;height:56px;background:linear-gradient(var(--ink),transparent);animation:drip 1.8s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ MARQUEE ============ */
+.marquee-band{padding:2.6rem 0;border-top:1px solid var(--faint);border-bottom:1px solid var(--faint);overflow:hidden;background:var(--bg-2)}
+.marquee{display:flex;overflow:hidden;user-select:none}
+.marquee + .marquee{margin-top:1.4rem}
+.m-track{display:flex;flex-shrink:0;min-width:100%;justify-content:space-around;gap:3rem;animation:scrollX var(--dur,38s) linear infinite;padding-right:3rem}
+.marquee.rev .m-track{animation-direction:reverse}
+@keyframes scrollX{to{transform:translateX(-100%)}}
+.m-item{font-family:var(--font-display);font-weight:700;font-size:clamp(1rem,2.2vw,1.8rem);text-transform:uppercase;white-space:nowrap;letter-spacing:.02em;display:flex;align-items:center;gap:3rem}
+.m-item i{font-style:normal;color:var(--pink);font-size:.6em}
+.marquee.rev .m-item{color:transparent;-webkit-text-stroke:1px rgba(244,241,234,.5)}
+.marquee.rev .m-item i{-webkit-text-stroke:0;color:var(--teal)}
+
+/* ============ STATS ============ */
+#stats{padding:clamp(5rem,9vw,9rem) 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.stat{border-left:1px solid var(--faint);padding-left:1.6rem}
+.stat .num{font-family:var(--font-display);font-weight:800;font-size:clamp(1.7rem,3.4vw,3rem);line-height:1.1;display:block}
+.stat .num small{font-size:.5em}
+.stat:nth-child(1) .num{color:var(--pink)}.stat:nth-child(2) .num{color:var(--teal)}
+.stat:nth-child(3) .num{color:var(--violet)}.stat:nth-child(4) .num{color:var(--gold)}
+.stat p{margin-top:.8rem;color:var(--muted);font-size:.86rem;letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr);row-gap:3rem}}
+
+/* ============ BAD BUNNY HORIZONTAL ============ */
+#conejo{background:var(--bg-2)}
+.hwrap{position:relative}
+.hsticky{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center}
+.h-bigbg{
+  position:absolute;top:6%;left:0;font-family:var(--font-display);font-weight:900;font-size:clamp(4.5rem,13vw,12rem);
+  white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(244,241,234,.07);z-index:0;pointer-events:none;line-height:1;
+}
+.htrack{display:flex;gap:clamp(2rem,4vw,4.5rem);padding:0 clamp(1.2rem,4vw,4rem);will-change:transform;position:relative;z-index:1}
+/* vinyl shelf — counter-scrolling layer below the panels */
+.disk-layer{
+  position:absolute;left:0;bottom:-72px;z-index:0;display:flex;gap:64px;
+  pointer-events:none;will-change:transform;
+}
+.disk{
+  width:190px;height:190px;border-radius:50%;position:relative;flex:0 0 auto;
+  transform:translateY(var(--lift,0px));
+  transition:transform .28s var(--ease);
+  background:
+    radial-gradient(circle at 32% 28%,rgba(255,255,255,.09),transparent 42%),
+    repeating-radial-gradient(circle,#0D0D0D 0 3px,#181818 3px 6px);
+  border:1px solid rgba(244,241,234,.09);
+  box-shadow:0 -10px 44px rgba(0,0,0,.55),0 0 0 6px rgba(0,0,0,.35);
+}
+.disk img{position:absolute;inset:31%;width:38%;height:38%;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.7);transform:rotate(var(--spin,0deg))}
+.disk::after{content:"";position:absolute;inset:48%;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1px rgba(244,241,234,.15)}
+@media (max-width:900px){.disk-layer{display:none}}
+.panel{
+  flex:0 0 auto;width:min(78vw,900px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,3vw,3rem);align-items:center;
+  padding:clamp(1.4rem,2.6vw,2.8rem);border:1px solid var(--faint);border-radius:24px;
+  background:rgba(244,241,234,.025);backdrop-filter:blur(8px);
+}
+.panel.intro{width:min(88vw,760px);grid-template-columns:1fr;background:none;border:none;backdrop-filter:none}
+.panel.intro .h-giant{font-size:clamp(2rem,5vw,4.4rem)}
+.panel.intro p{color:var(--muted);max-width:52ch;margin-top:1.6rem;font-size:1.05rem}
+.panel .art{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:1;transform:rotate(-2.5deg);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.panel:nth-child(odd) .art{transform:rotate(2.5deg)}
+.panel .art img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.panel:hover .art img{transform:scale(1.06)}
+.panel .art .vinyl{
+  position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 18%,rgba(0,0,0,.18) 19%,transparent 20%,rgba(0,0,0,.12) 34%,transparent 35%,rgba(0,0,0,.1) 48%,transparent 49%);
+  opacity:0;transition:opacity .6s;
+}
+.panel:hover .art .vinyl{opacity:1}
+.panel .idx{font-family:var(--font-display);font-weight:600;font-size:.75rem;letter-spacing:.25em;color:var(--teal);display:block;margin-bottom:1rem}
+.panel h3{font-family:var(--font-display);font-weight:800;font-size:clamp(1.2rem,2.6vw,2.2rem);text-transform:uppercase;line-height:1.15}
+.panel .meta{margin-top:1.2rem;color:var(--muted);font-size:.95rem}
+.panel .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.panel .tag{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;padding:.45rem .85rem;border-radius:100px;border:1px solid var(--faint);color:var(--muted)}
+.panel .tag.win{border-color:rgba(255,216,77,.5);color:var(--gold)}
+@media (max-width:900px){
+  .hwrap{height:auto!important}
+  .hsticky{position:static;height:auto;display:block;padding:4.5rem 0}
+  .h-bigbg{display:none}
+  .htrack{overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:1.5rem;transform:none!important;-webkit-overflow-scrolling:touch}
+  .panel{width:82vw;scroll-snap-align:center;grid-template-columns:1fr}
+  .panel .art{max-width:340px}
+}
+
+/* ============ WORKS GRID ============ */
+#work{padding:clamp(6rem,10vw,10rem) 0}
+.work-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem;margin-bottom:4rem}
+.work-head .h-giant{font-size:clamp(2rem,5vw,4.6rem)}
+.work-head p{max-width:380px;color:var(--muted)}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:1.1rem}
+.card{
+  position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--faint);
+  background:var(--bg-2);min-height:300px;grid-column:span 4;
+  transform-style:preserve-3d;transition:border-color .4s;
+}
+.card.w6{grid-column:span 6}.card.w8{grid-column:span 8}
+.card:hover{border-color:rgba(244,241,234,.35)}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease),filter 1s}
+.card:hover img{transform:scale(1.07)}
+.card .shade{position:absolute;inset:0;background:linear-gradient(200deg,transparent 30%,rgba(5,7,13,.92) 88%)}
+/* cursor spotlight (modern hover highlight) */
+.card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s;
+  background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(255,68,56,.13),transparent 65%);
+}
+.card:hover::after{opacity:1}
+.card .info{position:absolute;left:0;right:0;bottom:0;padding:1.6rem;display:flex;flex-direction:column;gap:.3rem}
+.card .artist{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal)}
+.card h3{font-family:var(--font-display);font-weight:800;font-size:clamp(1.05rem,1.7vw,1.5rem);text-transform:uppercase;line-height:1.2}
+.card .credit{color:var(--muted);font-size:.85rem}
+.card .badge{
+  position:absolute;top:1.1rem;left:1.1rem;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.5rem .9rem;border-radius:100px;background:rgba(5,7,13,.65);backdrop-filter:blur(8px);border:1px solid var(--faint);
+}
+.card .badge.gold{color:var(--gold);border-color:rgba(255,216,77,.4)}
+@property --bang{syntax:'<angle>';inherits:false;initial-value:0deg}
+.card.cta-card{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  background:linear-gradient(var(--bg-2),var(--bg-2)) padding-box,
+    conic-gradient(from var(--bang),var(--pink),var(--teal),var(--violet),var(--pink)) border-box;
+  border:1px solid transparent;
+  animation:borderSpin 7s linear infinite;
+}
+@keyframes borderSpin{to{--bang:360deg}}
+.card.cta-card .inner{padding:2rem}
+.card.cta-card h3{font-size:clamp(1.2rem,2vw,1.7rem);margin-bottom:1rem}
+.card.cta-card p{color:var(--muted);font-size:.9rem;margin-bottom:1.6rem}
+@media (max-width:900px){.card,.card.w6,.card.w8{grid-column:span 12}}
+@media (min-width:901px) and (max-width:1150px){.card{grid-column:span 6}.card.w8{grid-column:span 6}}
+
+/* ============ DUO ============ */
+#duo{padding:clamp(6rem,10vw,10rem) 0;background:var(--bg-2);border-top:1px solid var(--faint)}
+.duo-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2.5rem,5vw,5.5rem);align-items:center}
+.duo-photo{position:relative}
+.duo-photo .frame{border-radius:22px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.duo-photo .frame img{filter:grayscale(35%) contrast(1.05);transition:filter .8s}
+.duo-photo:hover .frame img{filter:none}
+.duo-photo .sticker{
+  position:absolute;right:-14px;top:-14px;z-index:2;
+  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:#05070D;font-weight:700;
+  background:var(--grad);padding:.8rem 1.2rem;border-radius:100px;transform:rotate(6deg);
+}
+.duo-copy .h-giant{font-size:clamp(1.7rem,3.8vw,3.4rem);margin-bottom:1.8rem}
+.duo-copy p{color:var(--muted);margin-bottom:1.2rem;max-width:56ch}
+.duo-copy p strong{color:var(--ink)}
+.members{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:2.4rem}
+.member{border:1px solid var(--faint);border-radius:16px;padding:1.5rem;background:rgba(5,7,13,.45)}
+.member h4{font-family:var(--font-display);font-weight:800;font-size:1.05rem;text-transform:uppercase;letter-spacing:.02em}
+.member .role{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--pink);display:block;margin:.4rem 0 .8rem}
+.member:last-child .role{color:var(--teal)}
+.member p{color:var(--muted);font-size:.88rem}
+@media (max-width:900px){.duo-grid{grid-template-columns:1fr}.members{grid-template-columns:1fr}}
+
+/* ============ QUOTE BAND ============ */
+#quote-band{position:relative;overflow:hidden;padding:clamp(7rem,13vw,12rem) 0}
+#quote-band .bgimg{position:absolute;inset:-18% 0;background:url("img/arturia-05.jpg") center/cover;will-change:transform;opacity:.35;filter:saturate(1.2)}
+#quote-band::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg-2),rgba(5,7,13,.55) 40%,rgba(5,7,13,.65) 60%,var(--bg))}
+#quote-band .wrap{position:relative;z-index:1;text-align:center}
+blockquote{font-family:var(--font-display);font-weight:700;font-size:clamp(1.2rem,2.8vw,2.5rem);text-transform:uppercase;line-height:1.3;max-width:24ch;margin:0 auto}
+blockquote .grad-text{display:inline}
+cite{display:block;margin-top:2rem;font-style:normal;font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+
+/* ============ SERVICES ============ */
+#services{padding:clamp(6rem,10vw,10rem) 0}
+.svc-head{margin-bottom:3.5rem}
+.svc-head .h-giant{font-size:clamp(2.8rem,7vw,6.5rem)}
+.svc-list{border-top:1px solid var(--faint)}
+.svc{
+  display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:center;
+  padding:2.2rem 0;border-bottom:1px solid var(--faint);transition:padding .4s var(--ease);position:relative;
+}
+.svc:hover{padding-left:1.2rem}
+.svc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,rgba(255,68,56,.07),transparent);transition:width .5s var(--ease);pointer-events:none}
+.svc:hover::before{width:100%}
+.svc .n{font-family:var(--font-display);font-weight:600;color:var(--muted);font-size:.85rem;width:3.5ch}
+.svc h3{font-family:var(--font-display);font-weight:800;font-size:clamp(1.1rem,2.3vw,1.9rem);text-transform:uppercase;line-height:1.2}
+.svc p{grid-column:2;color:var(--muted);font-size:.92rem;max-width:60ch;margin-top:.4rem}
+.svc .arrow{font-size:1.6rem;color:var(--teal);transform:translateX(-8px);opacity:0;transition:.4s var(--ease)}
+.svc:hover .arrow{transform:none;opacity:1}
+@media (max-width:700px){.svc{grid-template-columns:auto 1fr}.svc .arrow{display:none}}
+
+/* ============ CONTACT ============ */
+#contact{padding:clamp(7rem,12vw,12rem) 0 5rem;background:var(--bg-2);border-top:1px solid var(--faint);overflow:hidden;position:relative}
+#contact::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 115%,rgba(255,68,56,.10),transparent 65%)}
+.contact-inner{position:relative;text-align:center}
+.contact-inner .h-giant{font-size:clamp(1.9rem,5.6vw,5.4rem)}
+.contact-inner>p{color:var(--muted);max-width:52ch;margin:2rem auto 3rem}
+.cta-big{
+  display:inline-flex;align-items:center;gap:1rem;
+  font-family:var(--font-display);font-weight:800;font-size:clamp(.85rem,1.3vw,1.05rem);letter-spacing:.06em;text-transform:uppercase;
+  padding:1.4rem 3rem;border-radius:100px;color:#05070D;background:var(--grad);
+  transition:transform .35s var(--ease),box-shadow .35s;will-change:transform;
+}
+.cta-big:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 60px rgba(255,68,56,.35)}
+.socials{display:flex;justify-content:center;gap:2.4rem;margin-top:3.2rem}
+.socials a{font-size:.78rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.socials a:hover{color:var(--teal)}
+
+/* ============ FOOTER ============ */
+footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg-2)}
+.foot-giant{display:block;font-size:clamp(2.2rem,7.5vw,6.5rem);line-height:1.05;margin-bottom:2.4rem;color:var(--ink)}
+.foot-giant .outline{transition:-webkit-text-stroke-color .3s,color .3s}
+.foot-giant:hover .outline{-webkit-text-stroke-color:var(--pink)}
+.foot{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between;color:var(--muted);font-size:.78rem;letter-spacing:.12em}
+.foot .mark{font-family:var(--font-display);font-weight:700;letter-spacing:.12em;color:var(--ink)}
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+  .reveal{opacity:1;transform:none}
+  .reveal.mask{clip-path:none}
+  .ch,.status-row,.hero-desc,.hero-ctas,.hero-visual{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- PRELOADER -->
+<div id="preloader" role="status" aria-label="Loading">
+  <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="pre-name">SÚBELO NEO</div>
+  <div class="pre-pct" id="pct">0%</div>
+</div>
+
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div id="progress" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Main navigation">
+  <a class="nav-logo" href="#hero"><span class="dot"></span>SÚBELO&nbsp;NEO</a>
+  <ul class="nav-links">
+    <li><a href="#conejo">Bad Bunny</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#duo">The Duo</a></li>
+    <li><a href="#services">Services</a></li>
+  </ul>
+  <a class="nav-cta magnetic" href="#contact">Work With Us</a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+</nav>
+<div id="mobile-menu">
+  <a href="#conejo"><em>01</em>Bad Bunny</a>
+  <a href="#work"><em>02</em>Work</a>
+  <a href="#duo"><em>03</em>The Duo</a>
+  <a href="#services"><em>04</em>Services</a>
+  <a href="#contact"><em>05</em>Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="wave" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="status-row">
+          <div class="hero-status"><span class="pulse-dot" aria-hidden="true"></span>San Juan, PR — Booking 2026 Sessions</div>
+          <button class="beat-toggle" id="beatToggle" aria-pressed="false" aria-label="Play a 30-second preview of Envolver">
+            <svg class="bt-play" width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0L10 6L0 12Z" fill="currentColor"/></svg>
+            <span class="bt-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="bt-label">Play the hit</span>
+          </button>
+        </div>
+        <h1 class="hero-type" id="heroType" aria-label="Súbelo NEO">
+          <span class="trow"><span class="ch" style="animation-delay:.05s">S</span><span class="ch" style="animation-delay:.1s">Ú</span><span class="ch" style="animation-delay:.15s">B</span><span class="ch" style="animation-delay:.2s">E</span><span class="ch" style="animation-delay:.25s">L</span><span class="ch" style="animation-delay:.3s">O</span></span>
+          <span class="trow trow-neo"><span class="ch" style="animation-delay:.42s">N</span><span class="ch" style="animation-delay:.48s">E</span><span class="ch" style="animation-delay:.54s">O</span></span>
+        </h1>
+        <p class="hero-desc">The Grammy-winning production duo behind <strong>20+ billion streams</strong> — from Bad Bunny's <strong>YHLQMDLG</strong> to Anitta's global #1 <strong>"Envolver."</strong></p>
+        <div class="hero-ctas">
+          <a class="cta-big magnetic" href="#contact">Start a Project <span aria-hidden="true">→</span></a>
+          <a class="cta-ghost magnetic" href="#conejo">Hear the Work</a>
+        </div>
+      </div>
+      <div class="hero-visual" id="heroVisual">
+        <div class="hero-photo" data-depth="12"><img src="img/arturia-09.jpg" alt="Súbelo NEO — José “Phantom” Cruz and Freddy Montalvo Jr."></div>
+        <div class="float-chip fc1 fc-gold" data-depth="30"><span>★ Grammy Winners</span></div>
+        <div class="float-chip fc2" data-depth="38"><span>20B+ Global Streams</span></div>
+        <div class="float-chip fc3" data-depth="22"><span>#1 Billboard Global · “Envolver”</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+  <audio id="heroBeat" src="audio/envolver.m4a" loop preload="none"></audio>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee" style="--dur:42s">
+    <div class="m-track">
+      <span class="m-item">Bad Bunny <i>✦</i></span><span class="m-item">Karol G <i>✦</i></span><span class="m-item">Anitta <i>✦</i></span><span class="m-item">Rauw Alejandro <i>✦</i></span><span class="m-item">J Balvin <i>✦</i></span><span class="m-item">Myke Towers <i>✦</i></span><span class="m-item">Anuel AA <i>✦</i></span><span class="m-item">Sech <i>✦</i></span><span class="m-item">Lenny Tavárez <i>✦</i></span>
+    </div>
+    <div class="m-track">
+      <span class="m-item">Bad Bunny <i>✦</i></span><span class="m-item">Karol G <i>✦</i></span><span class="m-item">Anitta <i>✦</i></span><span class="m-item">Rauw Alejandro <i>✦</i></span><span class="m-item">J Balvin <i>✦</i></span><span class="m-item">Myke Towers <i>✦</i></span><span class="m-item">Anuel AA <i>✦</i></span><span class="m-item">Sech <i>✦</i></span><span class="m-item">Lenny Tavárez <i>✦</i></span>
+    </div>
+  </div>
+  <div class="marquee rev" style="--dur:48s">
+    <div class="m-track">
+      <span class="m-item">Yo Perreo Sola <i>✦</i></span><span class="m-item">Safaera <i>✦</i></span><span class="m-item">Me Porto Bonito <i>✦</i></span><span class="m-item">Envolver <i>✦</i></span><span class="m-item">La Difícil <i>✦</i></span><span class="m-item">Bichiyal <i>✦</i></span><span class="m-item">El Makinón <i>✦</i></span><span class="m-item">Fantasías <i>✦</i></span>
+    </div>
+    <div class="m-track">
+      <span class="m-item">Yo Perreo Sola <i>✦</i></span><span class="m-item">Safaera <i>✦</i></span><span class="m-item">Me Porto Bonito <i>✦</i></span><span class="m-item">Envolver <i>✦</i></span><span class="m-item">La Difícil <i>✦</i></span><span class="m-item">Bichiyal <i>✦</i></span><span class="m-item">El Makinón <i>✦</i></span><span class="m-item">Fantasías <i>✦</i></span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat reveal"><span class="num"><span data-count="20">0</span><small>B+</small></span><p>Global streams &amp; counting</p></div>
+      <div class="stat reveal" data-delay="1"><span class="num"><span data-count="12">0</span></span><p>Tracks produced on YHLQMDLG</p></div>
+      <div class="stat reveal" data-delay="2"><span class="num">#<span data-count="1">0</span></span><p>Billboard Global — "Envolver"</p></div>
+      <div class="stat reveal" data-delay="3"><span class="num"><span data-count="3">0</span><small>×</small></span><p>BMI Latin Awards</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BAD BUNNY HORIZONTAL SHOWCASE -->
+<section id="conejo">
+  <div class="hwrap" id="hwrap">
+    <div class="hsticky">
+      <div class="h-bigbg" id="bigbg">EL CONEJO MALO · EL CONEJO MALO ·</div>
+      <div class="disk-layer" id="diskLayer" aria-hidden="true"></div>
+      <div class="htrack" id="htrack">
+        <div class="panel intro">
+          <div>
+            <div class="eyebrow">01 — The Bad Bunny Files</div>
+            <h2 class="h-giant">The Sound<br>Behind <span class="grad-text">El Conejo</span></h2>
+            <p>Twelve tracks on <strong>YHLQMDLG</strong> — the Grammy-winning album that became the most-streamed Latin album in Spotify history. This is what Súbelo NEO built. Keep scrolling. →</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="art"><img src="img/yhlqmdlg.jpg" alt="YHLQMDLG album cover — Bad Bunny"><div class="vinyl"></div></div>
+          <div>
+            <span class="idx">TRK 01</span>
+            <h3>Yo Perreo Sola</h3>
+            <p class="meta">The anthem. A cultural reset that turned perreo into a statement — produced by Súbelo NEO.</p>
+            <div class="tags"><span class="tag">YHLQMDLG · 2020</span><span class="tag win">BMI Latin Award</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="art"><img src="img/yhlqmdlg.jpg" alt="YHLQMDLG album cover — Bad Bunny"><div class="vinyl"></div></div>
+          <div>
+            <span class="idx">TRK 02</span>
+            <h3>Safaera</h3>
+            <p class="meta">The beat-switching monster that broke the internet — a five-act perreo odyssey.</p>
+            <div class="tags"><span class="tag">YHLQMDLG · 2020</span><span class="tag win">BMI Latin Award</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="art"><img src="img/yhlqmdlg.jpg" alt="YHLQMDLG album cover — Bad Bunny"><div class="vinyl"></div></div>
+          <div>
+            <span class="idx">TRK 03</span>
+            <h3>La Difícil</h3>
+            <p class="meta">"The track that best defines our sound." — Phantom. Pure Súbelo NEO DNA.</p>
+            <div class="tags"><span class="tag">YHLQMDLG · 2020</span><span class="tag win">BMI Latin Award</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="art"><img src="img/yhlqmdlg.jpg" alt="YHLQMDLG album cover — Bad Bunny"><div class="vinyl"></div></div>
+          <div>
+            <span class="idx">TRK 04</span>
+            <h3>Bichiyal</h3>
+            <p class="meta">Bad Bunny brought the rhythm; Súbelo NEO layered the detail before Tainy added the melody.</p>
+            <div class="tags"><span class="tag">YHLQMDLG · 2020</span><span class="tag">ft. Yaviah</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="art"><img src="img/me-porto-bonito.jpg" alt="Me Porto Bonito single cover — Bad Bunny and Chencho Corleone"><div class="vinyl"></div></div>
+          <div>
+            <span class="idx">TRK 05</span>
+            <h3>Me Porto Bonito</h3>
+            <p class="meta">Un Verano Sin Ti. It became Spotify's most-streamed Latin song of all time.</p>
+            <div class="tags"><span class="tag">Un Verano Sin Ti · 2022</span><span class="tag win">Historic Record</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <div class="eyebrow reveal">02 — Selected Works</div>
+        <h2 class="h-giant reveal mask" data-delay="1">Hits On<br><span class="outline">Repeat</span></h2>
+      </div>
+      <p class="reveal" data-delay="2">A catalog that spans reggaeton, trap, pop and R&amp;B — engineered in Puerto Rico, streamed everywhere.</p>
+    </div>
+    <div class="bento">
+      <div class="card w8 tilt reveal">
+        <img src="img/yhlqmdlg.jpg" alt="YHLQMDLG — Bad Bunny">
+        <div class="shade"></div>
+        <span class="badge gold">★ Grammy Winner</span>
+        <div class="info">
+          <span class="artist">Bad Bunny</span>
+          <h3>YHLQMDLG</h3>
+          <p class="credit">12 tracks produced · Most-streamed Latin album in Spotify history</p>
+        </div>
+      </div>
+      <div class="card tilt reveal" data-delay="1">
+        <img src="img/envolver.jpg" alt="Envolver — Anitta">
+        <div class="shade"></div>
+        <span class="badge">#1 Billboard Global</span>
+        <div class="info">
+          <span class="artist">Anitta</span>
+          <h3>Envolver</h3>
+          <p class="credit">Producers · The viral TikTok phenomenon</p>
+        </div>
+      </div>
+      <div class="card tilt reveal">
+        <img src="img/un-verano-sin-ti.jpg" alt="Un Verano Sin Ti — Bad Bunny">
+        <div class="shade"></div>
+        <span class="badge">Historic</span>
+        <div class="info">
+          <span class="artist">Bad Bunny</span>
+          <h3>Un Verano Sin Ti</h3>
+          <p class="credit">"Me Porto Bonito" — Spotify's most-streamed Latin song ever</p>
+        </div>
+      </div>
+      <div class="card tilt reveal" data-delay="1">
+        <img src="img/el-makinon.jpg" alt="EL MAKINÓN — Karol G and Mariah Angeliq">
+        <div class="shade"></div>
+        <div class="info">
+          <span class="artist">Karol G · Mariah Angeliq</span>
+          <h3>El Makinón</h3>
+          <p class="credit">Producers · KG0516 · 2021</p>
+        </div>
+      </div>
+      <div class="card tilt reveal" data-delay="2">
+        <img src="img/fantasias.jpg" alt="Fantasías — Lenny Tavárez">
+        <div class="shade"></div>
+        <div class="info">
+          <span class="artist">Lenny Tavárez</span>
+          <h3>Fantasías</h3>
+          <p class="credit">Producers · The breakout smash</p>
+        </div>
+      </div>
+      <div class="card cta-card reveal" data-delay="3">
+        <div class="inner">
+          <h3 class="grad-text">Your Record<br>Next?</h3>
+          <p>The next entry in this catalog could be yours.</p>
+          <a class="nav-cta" href="#contact">Start a Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DUO -->
+<section id="duo">
+  <div class="wrap">
+    <div class="duo-grid">
+      <div class="duo-photo reveal">
+        <span class="sticker">Est. Puerto Rico</span>
+        <div class="frame"><img src="img/arturia-09.jpg" alt="Súbelo NEO — Phantom and Freddy Montalvo, portrait"></div>
+      </div>
+      <div class="duo-copy">
+        <div class="eyebrow reveal">03 — The Duo</div>
+        <h2 class="h-giant reveal mask" data-delay="1">Phantom<br><span class="outline">&amp; Freddy</span></h2>
+        <p class="reveal" data-delay="2"><strong>José Carlos "Phantom" Cruz</strong> and <strong>Freddy Montalvo Jr.</strong> met in a Massachusetts recording studio and bet everything on a move back to Puerto Rico to make music full-time. The bet paid off: Noah Assad, CEO of Rimas Entertainment, signed them — and the hits haven't stopped since.</p>
+        <p class="reveal" data-delay="3">Blending reggaeton, trap, pop and R&amp;B into a signature sound, their placements have generated over <strong>20 billion streams worldwide</strong> and a Grammy for YHLQMDLG.</p>
+        <div class="members">
+          <div class="member reveal" data-delay="2">
+            <h4>Phantom</h4>
+            <span class="role">Melody · Rhythm</span>
+            <p>Drummer-turned-producer. The drum patterns and melodic instincts that define the duo's sound.</p>
+          </div>
+          <div class="member reveal" data-delay="3">
+            <h4>Freddy</h4>
+            <span class="role">Mix · Master</span>
+            <p>The engineer's ear. Mixing and mastering precision that makes every record radio-ready.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<section id="quote-band">
+  <div class="bgimg" id="qbg"></div>
+  <div class="wrap">
+    <blockquote class="reveal">"What I like most about collaborating with Súbelo NEO is <span class="grad-text">how talented they are.</span>"</blockquote>
+    <cite class="reveal" data-delay="1">— Bad Bunny, via Apple Music</cite>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="svc-head">
+      <div class="eyebrow reveal">04 — What We Do</div>
+      <h2 class="h-giant reveal mask" data-delay="1">From Idea To <span class="grad-text">#1</span></h2>
+    </div>
+    <div class="svc-list">
+      <a class="svc reveal" href="#contact">
+        <span class="n">01</span>
+        <div><h3>Music Production</h3><p>Full records from scratch — reggaeton, trap, pop, R&amp;B, afrobeat and electronic. The genre-fluid engine behind era-defining albums.</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="svc reveal" data-delay="1" href="#contact">
+        <span class="n">02</span>
+        <div><h3>Songwriting &amp; Toplines</h3><p>Hooks that live rent-free in 20 billion streams. Composition and topline work for the biggest voices in Latin music.</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="svc reveal" data-delay="2" href="#contact">
+        <span class="n">03</span>
+        <div><h3>Mixing &amp; Mastering</h3><p>Radio-ready, playlist-ready, stadium-ready. Precision engineering on every bounce.</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="svc reveal" data-delay="3" href="#contact">
+        <span class="n">04</span>
+        <div><h3>Executive Production</h3><p>Album architecture from concept to credits — the same end-to-end vision they brought to YHLQMDLG.</p></div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap contact-inner">
+    <div class="eyebrow reveal" style="justify-content:center">05 — Booking</div>
+    <h2 class="h-giant reveal mask" data-delay="1">¿Listo Para Tu<br><span class="grad-text">Próximo Hit?</span></h2>
+    <p class="reveal" data-delay="2">Labels, artists and A&amp;Rs — if you're chasing the record that changes everything, you're in the right place. Tell us about your project.</p>
+    <a class="cta-big magnetic reveal" data-delay="3" href="mailto:booking@subeloneo.com?subject=Production%20Inquiry">Let's Make A Hit <span aria-hidden="true">→</span></a>
+    <div class="socials reveal" data-delay="4">
+      <a href="https://www.instagram.com/subeloneo" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://soundcloud.com/subeloneo" target="_blank" rel="noopener">SoundCloud</a>
+      <a href="https://open.spotify.com/search/S%C3%BAbelo%20NEO" target="_blank" rel="noopener">Spotify</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="foot-giant h-giant" href="#hero" aria-label="Back to top">Súbelo <span class="outline">NEO</span></a>
+    <div class="foot">
+      <span class="mark">SÚBELO NEO®</span>
+      <span id="prTime"></span>
+      <span>San Juan, Puerto Rico · Managed by Rimas Entertainment</span>
+      <span>© 2026 Súbelo NEO. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- PRELOADER ---------- */
+var pre = document.getElementById("preloader"),
+    pct = document.getElementById("pct"),
+    hero = document.getElementById("hero"),
+    n = 0;
+function tick(){
+  n += Math.random()*14+6;
+  if(n >= 100){ n = 100; }
+  pct.textContent = Math.floor(n) + "%";
+  if(n < 100){ setTimeout(tick, 90); }
+  else{
+    setTimeout(function(){
+      pre.classList.add("done");
+      document.body.classList.remove("locked");
+      hero.classList.add("on");
+    }, 250);
+  }
+}
+if(reduced){ pre.classList.add("done"); document.body.classList.remove("locked"); hero.classList.add("on"); }
+else{ tick(); }
+
+/* ---------- CURSOR ---------- */
+var dot = document.querySelector(".cursor-dot"),
+    ring = document.querySelector(".cursor-ring"),
+    mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+if(matchMedia("(hover:hover)").matches && !reduced){
+  addEventListener("mousemove", function(e){ mx = e.clientX; my = e.clientY; });
+  (function loop(){
+    rx += (mx-rx)*.16; ry += (my-ry)*.16;
+    dot.style.transform = "translate("+mx+"px,"+my+"px) translate(-50%,-50%)";
+    ring.style.transform = "translate("+rx+"px,"+ry+"px) translate(-50%,-50%)";
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll("a,button,.card,.panel").forEach(function(el){
+    el.addEventListener("mouseenter", function(){ ring.classList.add("hot"); });
+    el.addEventListener("mouseleave", function(){ ring.classList.remove("hot"); });
+  });
+}
+
+/* ---------- NAV ---------- */
+var nav = document.getElementById("nav"),
+    burger = document.getElementById("burger"),
+    menu = document.getElementById("mobile-menu");
+burger.addEventListener("click", function(){
+  var open = menu.classList.toggle("open");
+  burger.classList.toggle("open", open);
+  burger.setAttribute("aria-expanded", open);
+  document.body.classList.toggle("locked", open);
+});
+menu.querySelectorAll("a").forEach(function(a){
+  a.addEventListener("click", function(){
+    menu.classList.remove("open"); burger.classList.remove("open");
+    burger.setAttribute("aria-expanded","false");
+    document.body.classList.remove("locked");
+  });
+});
+
+/* ---------- HERO CANVAS WAVEFORM ---------- */
+var cv = document.getElementById("wave"), ctx = cv.getContext("2d"), t = 0;
+function sizeCanvas(){
+  var r = Math.min(devicePixelRatio||1, 2);
+  cv.width = cv.offsetWidth*r; cv.height = cv.offsetHeight*r;
+  ctx.setTransform(r,0,0,r,0,0);
+}
+sizeCanvas();
+addEventListener("resize", sizeCanvas);
+/* waveform reacts to the cursor like touching an EQ, and to the beat when playing */
+var heroMX = null, heroSmooth = 0;
+var beatAudio = null, beatAnalyser = null, beatData = null, beatMix = 0;
+hero.addEventListener("mousemove", function(e){ heroMX = e.clientX; });
+hero.addEventListener("mouseleave", function(){ heroMX = null; });
+function drawWave(){
+  var w = cv.offsetWidth, h = cv.offsetHeight;
+  ctx.clearRect(0,0,w,h);
+  heroSmooth += ((heroMX===null?0:1) - heroSmooth)*.08;
+  var beatOn = beatAudio && !beatAudio.paused && beatAnalyser;
+  beatMix += ((beatOn?1:0) - beatMix)*.07;
+  if(beatOn){ beatAnalyser.getByteFrequencyData(beatData); }
+  var bars = Math.floor(w/16);
+  for(var i=0;i<bars;i++){
+    var x = i*16+8,
+        p = i/bars,
+        amp = (Math.sin(t*.9+i*.32)*.5+.5)*(Math.sin(t*.4+i*.11)*.5+.5);
+    if(beatMix > .01 && beatData){
+      var bin = Math.min(beatData.length-1, Math.floor(Math.pow(p,1.5)*beatData.length*.82));
+      amp = amp*(1-beatMix) + (beatData[bin]/255)*beatMix;
+    }
+    var boost = heroMX===null ? 0 : Math.exp(-((x-heroMX)*(x-heroMX))/33800)*heroSmooth,
+        bh = 14 + Math.min(1, amp + boost*(1-amp*.4))*h*.30,
+        y = h*.58;
+    var g = ctx.createLinearGradient(0,y-bh,0,y+bh);
+    if(p<.5){ g.addColorStop(0,"rgba(255,68,56,"+(0.10+amp*.35)+")"); g.addColorStop(1,"rgba(255,176,59,"+(0.06+amp*.22)+")"); }
+    else{ g.addColorStop(0,"rgba(91,192,255,"+(0.10+amp*.35)+")"); g.addColorStop(1,"rgba(255,176,59,"+(0.06+amp*.22)+")"); }
+    ctx.fillStyle = g;
+    var bw = 5;
+    ctx.beginPath();
+    ctx.roundRect(x-bw/2, y-bh, bw, bh*2, 3);
+    ctx.fill();
+  }
+  t += .016;
+  if(!reduced){ requestAnimationFrame(drawWave); }
+}
+drawWave();
+
+/* ---------- REVEALS ---------- */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+  });
+},{threshold:.18, rootMargin:"0px 0px -40px 0px"});
+document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+/* ---------- COUNT-UPS ---------- */
+var cio = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(!e.isIntersecting) return;
+    cio.unobserve(e.target);
+    var el = e.target, target = +el.dataset.count, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/1400, 1),
+          eased = 1-Math.pow(1-p,3);
+      el.textContent = Math.round(target*eased);
+      if(p<1) requestAnimationFrame(step);
+    }
+    if(reduced){ el.textContent = target; } else { requestAnimationFrame(step); }
+  });
+},{threshold:.6});
+document.querySelectorAll("[data-count]").forEach(function(el){ cio.observe(el); });
+
+/* ---------- SCROLL-DRIVEN: progress bar, nav, horizontal section, parallax ---------- */
+var prog = document.getElementById("progress"),
+    hwrap = document.getElementById("hwrap"),
+    htrack = document.getElementById("htrack"),
+    bigbg = document.getElementById("bigbg"),
+    diskLayer = document.getElementById("diskLayer"),
+    qband = document.getElementById("quote-band"),
+    qbg = document.getElementById("qbg"),
+    desktopH = matchMedia("(min-width:901px)");
+
+/* build the vinyl shelf: 16 disks cycling through the catalog covers */
+(function(){
+  var covers = ["yhlqmdlg","me-porto-bonito","un-verano-sin-ti","envolver","el-makinon","fantasias"];
+  for(var i=0;i<16;i++){
+    var d = document.createElement("div");
+    d.className = "disk";
+    var im = document.createElement("img");
+    im.src = "img/" + covers[i%covers.length] + ".jpg";
+    im.alt = "";
+    im.loading = "lazy";
+    d.appendChild(im);
+    diskLayer.appendChild(d);
+  }
+})();
+
+function layoutH(){
+  if(desktopH.matches){
+    var dist = htrack.scrollWidth - innerWidth;
+    hwrap.style.height = (dist + innerHeight) + "px";
+  } else {
+    hwrap.style.height = "auto";
+    htrack.style.transform = "none";
+  }
+}
+layoutH();
+addEventListener("resize", layoutH);
+addEventListener("load", layoutH);
+
+var ticking = false;
+function onScroll(){
+  if(ticking) return;
+  ticking = true;
+  requestAnimationFrame(function(){
+    ticking = false;
+    var sy = scrollY,
+        doc = document.documentElement,
+        max = doc.scrollHeight - innerHeight;
+
+    prog.style.transform = "scaleX(" + (max>0 ? sy/max : 0) + ")";
+    nav.classList.toggle("scrolled", sy > 40);
+
+    if(desktopH.matches){
+      var dist = htrack.scrollWidth - innerWidth,
+          range = hwrap.offsetHeight - innerHeight,
+          p = Math.max(0, Math.min(1, -hwrap.getBoundingClientRect().top / (range || 1)));
+      htrack.style.transform = "translateX(" + (-p*dist) + "px)";
+      bigbg.style.transform = "translateX(" + (p*dist*.25) + "px)";
+      /* disks counter the top text: left on scroll-down, right on scroll-up */
+      diskLayer.style.transform = "translateX(" + (-p*dist*.45) + "px)";
+      diskLayer.style.setProperty("--spin", (-p*540) + "deg");
+    }
+
+    if(!reduced){
+      var qr = qband.getBoundingClientRect();
+      if(qr.bottom > 0 && qr.top < innerHeight){
+        var qp = (innerHeight - qr.top) / (innerHeight + qr.height);
+        qbg.style.transform = "translateY(" + ((qp-.5)*90) + "px)";
+      }
+    }
+  });
+}
+addEventListener("scroll", onScroll, {passive:true});
+onScroll();
+
+/* ---------- DISK SHELF HOVER POP ---------- */
+if(matchMedia("(hover:hover)").matches && !reduced){
+  var disks = Array.prototype.slice.call(diskLayer.children),
+      liftPending = false, lmx = -9999, lmy = -9999;
+  function applyLift(){
+    liftPending = false;
+    var vh = innerHeight,
+        yf = Math.max(0, Math.min(1, (lmy - vh*.42) / (vh*.3)));
+    disks.forEach(function(d){
+      var r = d.getBoundingClientRect(),
+          cx = r.left + r.width/2,
+          f = Math.max(0, 1 - Math.abs(lmx - cx)/230) * yf;
+      d.style.setProperty("--lift", (-f*42).toFixed(1) + "px");
+    });
+  }
+  addEventListener("mousemove", function(e){
+    lmx = e.clientX; lmy = e.clientY;
+    if(!liftPending){ liftPending = true; requestAnimationFrame(applyLift); }
+  });
+  document.addEventListener("mouseleave", function(){
+    lmx = lmy = -9999;
+    if(!liftPending){ liftPending = true; requestAnimationFrame(applyLift); }
+  });
+}
+
+/* ---------- HERO: KINETIC TYPE + MOUSE PARALLAX ---------- */
+var heroType = document.getElementById("heroType");
+if(heroType && matchMedia("(hover:hover)").matches && !reduced){
+  var chs = Array.prototype.slice.call(heroType.querySelectorAll(".ch")),
+      depthEls = Array.prototype.slice.call(hero.querySelectorAll("[data-depth]")),
+      hPending = false, hx = -9999, hy = -9999, inHero = false;
+  chs.forEach(function(c){
+    c.addEventListener("animationend", function(){
+      c.style.animation = "none"; c.style.opacity = "1"; c.style.transform = "none";
+    });
+  });
+  function heroFrame(){
+    hPending = false;
+    chs.forEach(function(c){
+      var r = c.getBoundingClientRect(),
+          d = Math.hypot(hx-(r.left+r.width/2), hy-(r.top+r.height/2)),
+          f = inHero ? Math.max(0, 1-d/280) : 0;
+      c.style.fontWeight = Math.round(800 + f*100);
+      if(c.style.animation === "none"){ c.style.transform = "translateY(" + (-f*8).toFixed(1) + "px)"; }
+    });
+    var nx = inHero ? (hx/innerWidth - .5) : 0,
+        ny = inHero ? (hy/innerHeight - .5) : 0;
+    depthEls.forEach(function(el){
+      var dep = +el.dataset.depth;
+      el.style.setProperty("--px", (-nx*dep).toFixed(1)+"px");
+      el.style.setProperty("--py", (-ny*dep).toFixed(1)+"px");
+    });
+  }
+  hero.addEventListener("mousemove", function(e){
+    hx = e.clientX; hy = e.clientY; inHero = true;
+    if(!hPending){ hPending = true; requestAnimationFrame(heroFrame); }
+  });
+  hero.addEventListener("mouseleave", function(){
+    inHero = false;
+    if(!hPending){ hPending = true; requestAnimationFrame(heroFrame); }
+  });
+}
+
+/* ---------- MAGNETIC BUTTONS ---------- */
+if(matchMedia("(hover:hover)").matches && !reduced){
+  document.querySelectorAll(".magnetic").forEach(function(btn){
+    btn.style.transition = (getComputedStyle(btn).transition || "") + ", translate .3s cubic-bezier(.22,1,.36,1)";
+    btn.addEventListener("mousemove", function(e){
+      var r = btn.getBoundingClientRect();
+      btn.style.translate = ((e.clientX-r.left-r.width/2)*.16).toFixed(1)+"px "+((e.clientY-r.top-r.height/2)*.22).toFixed(1)+"px";
+    });
+    btn.addEventListener("mouseleave", function(){ btn.style.translate = "0px 0px"; });
+  });
+}
+
+/* ---------- SPOTLIGHT CARDS ---------- */
+document.querySelectorAll(".card").forEach(function(c){
+  c.addEventListener("mousemove", function(e){
+    var r = c.getBoundingClientRect();
+    c.style.setProperty("--mx", (e.clientX-r.left)+"px");
+    c.style.setProperty("--my", (e.clientY-r.top)+"px");
+  });
+});
+
+/* ---------- HERO BEAT TOGGLE ---------- */
+var beatBtn = document.getElementById("beatToggle"), beatCtxA = null;
+if(beatBtn){
+  beatAudio = document.getElementById("heroBeat");
+  beatBtn.addEventListener("click", function(){
+    if(!beatCtxA){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      beatCtxA = new AC();
+      var src = beatCtxA.createMediaElementSource(beatAudio);
+      beatAnalyser = beatCtxA.createAnalyser();
+      beatAnalyser.fftSize = 256;
+      beatAnalyser.smoothingTimeConstant = .82;
+      beatData = new Uint8Array(beatAnalyser.frequencyBinCount);
+      src.connect(beatAnalyser); beatAnalyser.connect(beatCtxA.destination);
+    }
+    var label = beatBtn.querySelector(".bt-label");
+    if(beatAudio.paused){
+      beatCtxA.resume();
+      beatAudio.volume = .85;
+      beatAudio.play();
+      beatBtn.classList.add("playing");
+      beatBtn.setAttribute("aria-pressed","true");
+      label.textContent = "Envolver — Anitta";
+    } else {
+      beatAudio.pause();
+      beatBtn.classList.remove("playing");
+      beatBtn.setAttribute("aria-pressed","false");
+      label.textContent = "Play the hit";
+    }
+  });
+}
+
+/* ---------- SAN JUAN LOCAL TIME ---------- */
+var prTime = document.getElementById("prTime");
+if(prTime){
+  var fmtPR = new Intl.DateTimeFormat("en-US",{timeZone:"America/Puerto_Rico",hour:"2-digit",minute:"2-digit"});
+  var tickPR = function(){ prTime.textContent = "San Juan · " + fmtPR.format(new Date()); };
+  tickPR(); setInterval(tickPR, 30000);
+}
+
+/* ---------- CARD TILT ---------- */
+if(matchMedia("(hover:hover)").matches && !reduced){
+  document.querySelectorAll(".tilt").forEach(function(card){
+    card.addEventListener("mousemove", function(e){
+      var r = card.getBoundingClientRect(),
+          px = (e.clientX - r.left)/r.width - .5,
+          py = (e.clientY - r.top)/r.height - .5;
+      card.style.transform = "perspective(900px) rotateY("+(px*6)+"deg) rotateX("+(-py*6)+"deg)";
+    });
+    card.addEventListener("mouseleave", function(){
+      card.style.transform = "perspective(900px) rotateY(0) rotateX(0)";
+      card.style.transition = "transform .6s cubic-bezier(.22,1,.36,1), border-color .4s";
+      setTimeout(function(){ card.style.transition = "border-color .4s"; }, 600);
+    });
+  });
+}
+})();
+</script>
+</body>
+</html>
