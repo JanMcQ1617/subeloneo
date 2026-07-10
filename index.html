@@ -5,6 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SÚBELO NEO — Grammy-Winning Production Duo | Puerto Rico</title>
 <meta name="description" content="Súbelo NEO — the Grammy-winning Puerto Rican production duo behind 20+ billion streams. Producers for Bad Bunny, Karol G, Anitta, Rauw Alejandro & more.">
+
+<!-- Structured data (schema.org / JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MusicGroup",
+      "@id": "https://janmcq1617.github.io/subeloneo/#group",
+      "name": "Súbelo NEO",
+      "alternateName": "Subelo NEO",
+      "url": "https://janmcq1617.github.io/subeloneo/",
+      "description": "Grammy-winning Puerto Rican production duo behind 20+ billion streams. Producers for Bad Bunny, Karol G, Anitta, Rauw Alejandro and more.",
+      "genre": ["Reggaeton", "Latin Trap", "Música Urbana", "Latin Pop"],
+      "foundingLocation": { "@type": "Place", "name": "Puerto Rico" },
+      "sameAs": [
+        "https://soundcloud.com/subeloneo",
+        "https://www.instagram.com/subeloneo"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://janmcq1617.github.io/subeloneo/#website",
+      "url": "https://janmcq1617.github.io/subeloneo/",
+      "name": "Súbelo NEO",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://janmcq1617.github.io/subeloneo/#group" }
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🔊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -486,7 +517,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
       <div class="hero-copy">
         <div class="status-row">
           <div class="hero-status"><span class="pulse-dot" aria-hidden="true"></span>San Juan, PR — Booking 2026 Sessions</div>
-          <button class="beat-toggle" id="beatToggle" aria-pressed="false" aria-label="Play a 30-second preview of Envolver">
+          <button class="beat-toggle" id="beatToggle" aria-pressed="false" aria-label="Play a 30-second preview of Yo Perreo Sola">
             <svg class="bt-play" width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0L10 6L0 12Z" fill="currentColor"/></svg>
             <span class="bt-eq" aria-hidden="true"><i></i><i></i><i></i></span>
             <span class="bt-label">Play the hit</span>
@@ -511,7 +542,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
     </div>
   </div>
   <div class="scroll-cue">Scroll</div>
-  <audio id="heroBeat" src="audio/envolver.m4a" loop preload="none"></audio>
+  <audio id="heroBeat" src="audio/yo-perreo-sola.mp3" loop preload="none"></audio>
 </section>
 
 <!-- MARQUEE -->
@@ -1093,7 +1124,7 @@ if(beatBtn){
       beatAudio.play();
       beatBtn.classList.add("playing");
       beatBtn.setAttribute("aria-pressed","true");
-      label.textContent = "Envolver — Anitta";
+      label.textContent = "Yo Perreo Sola — Bad Bunny";
     } else {
       beatAudio.pause();
       beatBtn.classList.remove("playing");
