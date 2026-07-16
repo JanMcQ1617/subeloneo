@@ -514,7 +514,7 @@ cite{display:block;margin-top:2rem;font-style:normal;font-size:.8rem;letter-spac
 @media (max-width:700px){.svc{grid-template-columns:auto 1fr}.svc .arrow{display:none}}
 
 /* ============ CONTACT ============ */
-#contact{padding:clamp(7rem,12vw,12rem) 0 5rem;background:var(--bg-2);border-top:1px solid var(--faint);overflow:hidden;position:relative}
+#contact{padding:clamp(4rem,7vw,6.5rem) 0 5rem;background:var(--bg-2);border-top:1px solid var(--faint);overflow:hidden;position:relative}
 #contact::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 115%,rgba(255,68,56,.10),transparent 65%)}
 .contact-inner{position:relative;text-align:center}
 .contact-inner .h-giant{font-size:clamp(1.9rem,5.6vw,5.4rem)}
@@ -529,6 +529,15 @@ cite{display:block;margin-top:2rem;font-style:normal;font-size:.8rem;letter-spac
 .socials{display:flex;justify-content:center;gap:2.4rem;margin-top:3.2rem}
 .socials a{font-size:.78rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);transition:color .3s}
 .socials a:hover{color:var(--teal)}
+.book-proof{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(1.4rem,4vw,3rem);margin:0 auto 3rem;max-width:660px}
+.book-proof>div{display:flex;flex-direction:column;align-items:center;gap:.4rem;position:relative;padding:0 clamp(.9rem,2vw,1.5rem)}
+.book-proof>div+div::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:36px;background:var(--faint)}
+.book-proof .num{font-family:var(--font-display);font-weight:800;font-size:clamp(1.5rem,2.7vw,2.2rem);line-height:1}
+.book-proof>div:nth-child(1) .num{color:var(--pink)}
+.book-proof>div:nth-child(2) .num{color:var(--gold)}
+.book-proof>div:nth-child(3) .num{color:var(--teal)}
+.book-proof .lbl{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:520px){.book-proof>div+div::before{display:none}}
 
 /* ============ FOOTER ============ */
 footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg-2)}
@@ -863,6 +872,11 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
     <div class="eyebrow reveal" style="justify-content:center">05 — Booking</div>
     <h2 class="h-giant reveal mask" data-delay="1">¿Listo Para Tu<br><span class="grad-text">Próximo Hit?</span></h2>
     <p class="reveal" data-delay="2">Labels, artists and A&amp;Rs — if you're chasing the record that changes everything, you're in the right place. Tell us about your project.</p>
+    <div class="book-proof reveal" data-delay="2">
+      <div><span class="num">20B+</span><span class="lbl">Global Streams</span></div>
+      <div><span class="num">Grammy</span><span class="lbl">Winner · YHLQMDLG</span></div>
+      <div><span class="num">3×</span><span class="lbl">BMI Latin Awards</span></div>
+    </div>
     <a class="cta-big magnetic reveal" data-delay="3" href="mailto:booking@subeloneo.com?subject=Production%20Inquiry">Let's Make A Hit <span aria-hidden="true">→</span></a>
     <div class="socials reveal" data-delay="4">
       <a href="https://www.instagram.com/subeloneo" target="_blank" rel="noopener">Instagram</a>
