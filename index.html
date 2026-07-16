@@ -102,7 +102,8 @@
   ]
 }
 </script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🔊</text></svg>">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
@@ -178,8 +179,10 @@ nav{
   border-bottom:1px solid transparent;
 }
 nav.scrolled{background:rgba(5,7,13,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--faint)}
-.nav-logo{font-family:var(--font-display);font-weight:700;font-size:.85rem;letter-spacing:.14em;display:flex;align-items:center;gap:.6rem}
+.nav-logo{display:flex;align-items:center;line-height:0}
+.nav-logo img{height:30px;width:auto;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
 .nav-logo .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px var(--pink)}
+.pre-logo{width:min(62vw,330px);height:auto;display:block;filter:drop-shadow(0 8px 30px rgba(0,0,0,.55))}
 .nav-links{display:flex;gap:2.2rem;list-style:none}
 .nav-links a{font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:color .3s;position:relative}
 .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--grad);transition:width .35s var(--ease)}
@@ -584,7 +587,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
 <!-- PRELOADER -->
 <div id="preloader" role="status" aria-label="Loading">
   <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-  <div class="pre-name">SÚBELO NEO</div>
+  <img class="pre-logo" src="img/subeloneo-logo.png" alt="Súbelo NEO">
   <div class="pre-pct" id="pct">0%</div>
 </div>
 
@@ -594,7 +597,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
 
 <!-- NAV -->
 <nav id="nav" aria-label="Main navigation">
-  <a class="nav-logo" href="#hero"><span class="dot"></span>SÚBELO&nbsp;NEO</a>
+  <a class="nav-logo" href="#hero" aria-label="Súbelo NEO — home"><img src="img/subeloneo-logo.png" alt="Súbelo NEO"></a>
   <ul class="nav-links">
     <li><a href="#conejo">Bad Bunny</a></li>
     <li><a href="#work">Work</a></li>
