@@ -569,6 +569,9 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
 .foot-giant{display:block;font-size:clamp(2.2rem,7.5vw,6.5rem);line-height:1.05;margin-bottom:2.4rem;color:var(--ink)}
 .foot-giant .outline{transition:-webkit-text-stroke-color .3s,color .3s}
 .foot-giant:hover .outline{-webkit-text-stroke-color:var(--pink)}
+.foot-logo{display:block;line-height:0;margin-bottom:2.8rem}
+.foot-logo img{width:min(74vw,560px);height:auto;display:block;filter:drop-shadow(0 12px 40px rgba(0,0,0,.55));transition:transform .5s var(--ease)}
+.foot-logo:hover img{transform:translateY(-5px)}
 .foot{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between;color:var(--muted);font-size:.78rem;letter-spacing:.12em}
 .foot .mark{font-family:var(--font-display);font-weight:700;letter-spacing:.12em;color:var(--ink)}
 
@@ -918,7 +921,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
 
 <footer>
   <div class="wrap">
-    <a class="foot-giant h-giant" href="#hero" aria-label="Back to top">Súbelo <span class="outline">NEO</span></a>
+    <a class="foot-logo" href="#hero" aria-label="Súbelo NEO — back to top"><img src="img/subeloneo-logo.png" alt="Súbelo NEO"></a>
     <div class="foot">
       <span class="mark">SÚBELO NEO®</span>
       <span id="prTime"></span>
