@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Muso.AI data is cached at the edge for 6h by the function's own headers.
+[[headers]]
+  for = "/.netlify/functions/muso"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"

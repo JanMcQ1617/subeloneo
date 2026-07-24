@@ -344,16 +344,70 @@ section{position:relative}
 .marquee.rev .m-item{color:transparent;-webkit-text-stroke:1px rgba(244,241,234,.5)}
 .marquee.rev .m-item i{-webkit-text-stroke:0;color:var(--teal)}
 
-/* ============ STATS ============ */
-#stats{padding:clamp(5rem,9vw,9rem) 0}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+/* ============ NUMBERS · MUSO.AI ============ */
+#numbers{padding:clamp(5rem,9vw,9rem) 0;position:relative;overflow:hidden}
+#numbers::before{
+  content:"";position:absolute;left:50%;top:0;width:min(1000px,120vw);aspect-ratio:1.6;transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 30%,rgba(91,192,255,.09),transparent 65%);pointer-events:none;
+}
+.num-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.4rem;margin-bottom:clamp(2.2rem,4vw,3.4rem)}
+.num-head .h-giant{font-size:clamp(2rem,5vw,4.6rem)}
+.sync-badge{
+  display:inline-flex;align-items:center;gap:.6rem;padding:.55rem 1rem;border:1px solid var(--faint);border-radius:100px;
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,241,234,.4);
+  background:rgba(11,16,27,.6);white-space:nowrap;
+}
+.sync-badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+#numbers[data-state="live"] .sync-badge{color:var(--teal);border-color:rgba(91,192,255,.32)}
+#numbers[data-state="live"] .sync-badge .dot{box-shadow:0 0 10px var(--teal);animation:syncPulse 2.2s ease-in-out infinite}
+@keyframes syncPulse{0%,100%{opacity:1}50%{opacity:.22}}
+
+.stream-hero{
+  position:relative;border:1px solid var(--faint);border-radius:24px;overflow:hidden;text-align:center;
+  padding:clamp(2.2rem,5vw,4rem) clamp(1rem,3vw,2rem);margin-bottom:clamp(2rem,4vw,3.2rem);
+  background:linear-gradient(180deg,rgba(11,16,27,.9),rgba(5,7,13,.35));
+}
+.stream-hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(700px circle at 50% -10%,rgba(255,68,56,.16),transparent 70%);
+}
+.sh-label{position:relative;z-index:1;display:block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:1.3rem}
+.sh-count{
+  position:relative;z-index:1;font-family:var(--font-display);font-weight:900;line-height:1;letter-spacing:-.035em;
+  font-size:clamp(1.55rem,6.4vw,5.2rem);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
+  background:linear-gradient(92deg,var(--pink),var(--violet) 28%,var(--teal) 52%,var(--violet) 76%,var(--pink));
+  background-size:230% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shSweep 11s linear infinite;
+}
+@keyframes shSweep{to{background-position:230% 0}}
+.sh-src{position:relative;z-index:1;margin-top:1.3rem;color:var(--muted);font-size:.86rem}
+.sh-src a{color:var(--teal);border-bottom:1px solid rgba(91,192,255,.35)}
+
+.muso-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem;margin-bottom:clamp(2rem,4vw,3rem)}
+.mstat{border-left:1px solid var(--faint);padding-left:1.4rem}
+.mstat .num{font-family:var(--font-display);font-weight:800;font-size:clamp(1.5rem,3vw,2.6rem);line-height:1.1;display:block;font-variant-numeric:tabular-nums}
+.mstat:nth-child(1) .num{color:var(--pink)}.mstat:nth-child(2) .num{color:var(--teal)}
+.mstat:nth-child(3) .num{color:var(--violet)}.mstat:nth-child(4) .num{color:var(--gold)}
+.mstat p{margin-top:.7rem;color:var(--muted);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+
+.muso-top{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:clamp(2rem,4vw,3rem)}
+.mchip{
+  display:flex;align-items:center;gap:.7rem;padding:.42rem .95rem .42rem .42rem;border:1px solid var(--faint);
+  border-radius:100px;background:rgba(11,16,27,.6);transition:border-color .3s,transform .3s var(--ease);
+}
+.mchip:hover{border-color:rgba(244,241,234,.32);transform:translateY(-2px)}
+.mchip img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:none;background:var(--bg-2)}
+.mchip b{font-weight:600;font-size:.84rem}
+.mchip span{color:var(--muted);font-size:.78rem}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2rem}
 .stat{border-left:1px solid var(--faint);padding-left:1.6rem}
 .stat .num{font-family:var(--font-display);font-weight:800;font-size:clamp(1.7rem,3.4vw,3rem);line-height:1.1;display:block}
 .stat .num small{font-size:.5em}
 .stat:nth-child(1) .num{color:var(--pink)}.stat:nth-child(2) .num{color:var(--teal)}
 .stat:nth-child(3) .num{color:var(--violet)}.stat:nth-child(4) .num{color:var(--gold)}
 .stat p{margin-top:.8rem;color:var(--muted);font-size:.86rem;letter-spacing:.06em;text-transform:uppercase}
-@media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr);row-gap:3rem}}
+@media (max-width:900px){.stats-grid,.muso-strip{grid-template-columns:repeat(2,1fr);row-gap:2.4rem}}
 
 /* ============ BAD BUNNY HORIZONTAL ============ */
 #conejo{background:var(--bg-2)}
@@ -664,6 +718,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
 <nav id="nav" aria-label="Main navigation">
   <a class="nav-logo" href="#hero" aria-label="Súbelo NEO — home"><img src="img/subeloneo-logo.png" alt="Súbelo NEO"></a>
   <ul class="nav-links">
+    <li><a href="#numbers">Números</a></li>
     <li><a href="#conejo">Bad Bunny</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#duo">The Duo</a></li>
@@ -673,6 +728,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
 </nav>
 <div id="mobile-menu">
+  <a href="#numbers"><em>✦</em>Números</a>
   <a href="#conejo"><em>01</em>Bad Bunny</a>
   <a href="#work"><em>02</em>Work</a>
   <a href="#duo"><em>03</em>The Duo</a>
@@ -736,14 +792,33 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
   </div>
 </div>
 
-<!-- STATS -->
-<section id="stats">
+<!-- NUMBERS · LIVE FROM MUSO.AI -->
+<section id="numbers" data-state="static">
   <div class="wrap">
+    <div class="num-head">
+      <div>
+        <div class="eyebrow reveal">Catalog Data — <b>Muso.AI</b></div>
+        <h2 class="h-giant reveal mask" data-delay="1">Los Números<br><span class="grad-text">En Vivo</span></h2>
+      </div>
+      <div class="sync-badge reveal" data-delay="2" id="syncBadge" hidden>
+        <span class="dot" aria-hidden="true"></span><span id="syncText">Connecting…</span>
+      </div>
+    </div>
+
+    <div class="stream-hero reveal" data-delay="2">
+      <span class="sh-label">Global streams · credited catalog</span>
+      <div class="sh-count" id="streamCount" data-value="30000000000"><span>0</span><i id="streamPlus" style="font-style:normal">+</i></div>
+      <p class="sh-src" id="streamSrc">Production and composition credits across the full Súbelo NEO catalog.</p>
+    </div>
+
+    <div class="muso-strip" id="musoStrip" hidden></div>
+
+    <div class="muso-top" id="musoTop" hidden></div>
+
     <div class="stats-grid">
-      <div class="stat reveal"><span class="num"><span data-count="30">0</span><small>B+</small></span><p>Global streams &amp; counting</p></div>
-      <div class="stat reveal" data-delay="1"><span class="num"><span data-count="12">0</span></span><p>Tracks produced on YHLQMDLG</p></div>
-      <div class="stat reveal" data-delay="2"><span class="num">#<span data-count="1">0</span></span><p>Billboard Global — "Envolver"</p></div>
-      <div class="stat reveal" data-delay="3"><span class="num"><span data-count="3">0</span><small>×</small></span><p>BMI Latin Awards</p></div>
+      <div class="stat reveal"><span class="num"><span data-count="12">0</span></span><p>Tracks produced on YHLQMDLG</p></div>
+      <div class="stat reveal" data-delay="1"><span class="num">#<span data-count="1">0</span></span><p>Billboard Global — "Envolver"</p></div>
+      <div class="stat reveal" data-delay="2"><span class="num"><span data-count="3">0</span><small>×</small></span><p>BMI Latin Awards</p></div>
     </div>
   </div>
 </section>
@@ -883,7 +958,7 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
           <div class="cat-year" id="catYear" aria-hidden="true"><span>2026</span></div>
           <div class="cat-meta" id="catMeta">5 releases</div>
           <div class="cat-bar"><i id="catBar"></i></div>
-          <p class="cat-note">Production, composition and writing credits, compiled from public credit databases.</p>
+          <p class="cat-note">Production, composition and writing credits. Compiled from public credit databases and kept in sync with Muso.AI.</p>
         </aside>
         <div class="cat-list">
       <div class="cat-yeargroup" data-year="2026" data-n="5">
@@ -1457,6 +1532,110 @@ if(matchMedia("(hover:hover)").matches && !reduced){
     });
   });
 }
+/* ---------- MUSO.AI LIVE DATA ---------- */
+(function(){
+  var sec = document.getElementById("numbers");
+  if(!sec) return;
+  var countEl = document.getElementById("streamCount"),
+      plusEl  = document.getElementById("streamPlus"),
+      srcEl   = document.getElementById("streamSrc"),
+      badge   = document.getElementById("syncBadge"),
+      badgeT  = document.getElementById("syncText"),
+      strip   = document.getElementById("musoStrip"),
+      topWrap = document.getElementById("musoTop"),
+      digits  = countEl.firstElementChild;
+
+  var target = +countEl.dataset.value || 0, shown = 0, seen = false, raf = 0;
+
+  function fmt(n){ return n.toLocaleString("en-US"); }
+
+  function compact(n){
+    if(!(n > 0)) return "—";
+    if(n < 10000) return fmt(n);
+    var units = [[1e9,"B"],[1e6,"M"],[1e3,"K"]];
+    for(var i = 0; i < units.length; i++){
+      if(n >= units[i][0]){
+        var v = n/units[i][0];
+        return v.toFixed(v < 10 ? 1 : 0).replace(/\.0$/, "") + units[i][1];
+      }
+    }
+    return fmt(n);
+  }
+
+  function animate(to){
+    cancelAnimationFrame(raf);
+    if(reduced){ shown = to; digits.textContent = fmt(to); return; }
+    var from = shown, t0 = 0;
+    raf = requestAnimationFrame(function step(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0)/2200, 1), e = 1 - Math.pow(1 - p, 4);
+      shown = Math.round(from + (to - from)*e);
+      digits.textContent = fmt(shown);
+      if(p < 1) raf = requestAnimationFrame(step);
+    });
+  }
+
+  new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(e){
+      if(!e.isIntersecting || seen) return;
+      seen = true; obs.disconnect(); animate(target);
+    });
+  }, {threshold:.35}).observe(countEl);
+
+  function ago(iso){
+    var mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime())/60000));
+    if(mins < 2) return "just now";
+    if(mins < 60) return mins + " min ago";
+    var h = Math.round(mins/60);
+    return h < 24 ? h + "h ago" : Math.round(h/24) + "d ago";
+  }
+
+  fetch("/.netlify/functions/muso").then(function(r){ return r.json(); }).then(function(d){
+    if(!d || !d.ok) return;                       /* no key / API down: stay static */
+
+    sec.dataset.state = "live";
+    badgeT.textContent = "Live · Muso.AI · " + ago(d.syncedAt);
+    badge.hidden = false;
+
+    if(d.streams && d.streams.value){
+      target = d.streams.value;
+      if(seen) animate(target); else digits.textContent = "0";
+      if(d.streams.live){
+        plusEl.hidden = true;
+        srcEl.innerHTML = 'Live stream count from <a href="' + d.profile.url + '" target="_blank" rel="noopener">Muso.AI</a>.';
+      }
+    }
+
+    if(d.tiles && d.tiles.length){
+      d.tiles.forEach(function(t){
+        var cell = document.createElement("div"); cell.className = "mstat";
+        var n = document.createElement("span"); n.className = "num"; n.textContent = compact(t.value);
+        var p = document.createElement("p"); p.textContent = t.label;
+        cell.appendChild(n); cell.appendChild(p);
+        strip.appendChild(cell);
+      });
+      strip.hidden = false;
+    }
+
+    if(d.top && d.top.length){
+      d.top.forEach(function(t){                  /* built as nodes, never innerHTML */
+        var chip = document.createElement("div");
+        chip.className = "mchip";
+        if(t.art && /^https:\/\//.test(t.art)){
+          var img = document.createElement("img");
+          img.src = t.art; img.alt = ""; img.loading = "lazy"; img.referrerPolicy = "no-referrer";
+          chip.appendChild(img);
+        }
+        var b = document.createElement("b"); b.textContent = t.title; chip.appendChild(b);
+        var sub = [t.artist, t.streams ? compact(t.streams) + " streams" : ""].filter(Boolean).join(" · ");
+        if(sub){ var s = document.createElement("span"); s.textContent = sub; chip.appendChild(s); }
+        topWrap.appendChild(chip);
+      });
+      topWrap.hidden = false;
+    }
+  }).catch(function(){ /* silent: the static numbers are already correct */ });
+})();
+
 /* ---------- FULL CATALOG: sticky year rail ---------- */
 (function(){
   var wrap = document.getElementById("catalog");
