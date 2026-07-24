@@ -613,9 +613,17 @@ cite{display:block;margin-top:2rem;font-style:normal;font-size:.8rem;letter-spac
   transition:transform .35s var(--ease),box-shadow .35s;will-change:transform;
 }
 .cta-big:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 60px rgba(255,68,56,.35)}
-.socials{display:flex;justify-content:center;gap:2.4rem;margin-top:3.2rem}
-.socials a{font-size:.78rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);transition:color .3s}
-.socials a:hover{color:var(--teal)}
+.socials{display:flex;justify-content:center;gap:1.1rem;margin-top:3.2rem}
+.socials .soc{
+  display:grid;place-items:center;width:54px;height:54px;border-radius:50%;
+  border:1px solid var(--faint);background:rgba(5,7,13,.45);color:var(--muted);
+  transition:color .35s,border-color .35s,background .35s,transform .35s var(--ease);
+}
+.socials .soc svg{width:21px;height:21px;display:block}
+.socials .soc:hover{color:var(--ink);border-color:rgba(244,241,234,.42);background:rgba(244,241,234,.07);transform:translateY(-3px)}
+.socials .soc:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+/* same waveform as the hero, sitting behind the booking copy */
+#waveContact{position:absolute;inset:0;width:100%;height:100%;opacity:.75}
 .book-proof{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(1.4rem,4vw,3rem);margin:0 auto 3rem;max-width:660px}
 .book-proof>div{display:flex;flex-direction:column;align-items:center;gap:.4rem;position:relative;padding:0 clamp(.9rem,2vw,1.5rem)}
 .book-proof>div+div::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:36px;background:var(--faint)}
@@ -1069,9 +1077,8 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
 <section id="contact">
   <div class="book-fx" aria-hidden="true">
     <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
-    <div class="eq eq-l"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="eq eq-r"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   </div>
+  <canvas id="waveContact" aria-hidden="true"></canvas>
   <div class="wrap contact-inner">
     <div class="eyebrow reveal" style="justify-content:center">05 — Booking</div>
     <h2 class="h-giant reveal mask" data-delay="1">¿Listo Para Tu<br><span class="grad-text">Próximo Hit?</span></h2>
@@ -1083,9 +1090,8 @@ footer{padding:4rem 0 3rem;border-top:1px solid var(--faint);background:var(--bg
     </div>
     <a class="cta-big magnetic reveal" data-delay="3" href="mailto:booking@subeloneo.com?subject=Production%20Inquiry">Let's Make A Hit <span aria-hidden="true">→</span></a>
     <div class="socials reveal" data-delay="4">
-      <a href="https://www.instagram.com/subeloneo" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://soundcloud.com/subeloneo" target="_blank" rel="noopener">SoundCloud</a>
-      <a href="https://open.spotify.com/search/S%C3%BAbelo%20NEO" target="_blank" rel="noopener">Spotify</a>
+      <a class="soc" href="https://www.instagram.com/subeloneo" target="_blank" rel="noopener" aria-label="Súbelo NEO on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.2" y="2.2" width="19.6" height="19.6" rx="5.6"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg></a>
+      <a class="soc" href="https://open.spotify.com/search/S%C3%BAbelo%20NEO" target="_blank" rel="noopener" aria-label="Súbelo NEO on Spotify"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.5 17.3a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.33-1.46c4.57-1.04 8.5-.59 11.66 1.34.35.22.46.68.25 1.03zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6.44.27.58.85.31 1.29zm.13-3.4C15.23 8.33 8.9 8.12 5.2 9.24a1.12 1.12 0 1 1-.65-2.15C8.8 5.8 15.79 6.05 20.16 8.65a1.12 1.12 0 1 1-1.06 1.98z"/></svg></a>
     </div>
   </div>
 </section>
@@ -1164,52 +1170,75 @@ menu.querySelectorAll("a").forEach(function(a){
   });
 });
 
-/* ---------- HERO CANVAS WAVEFORM ---------- */
-var cv = document.getElementById("wave"), ctx = cv.getContext("2d"), t = 0;
-function sizeCanvas(){
-  var r = Math.min(devicePixelRatio||1, 2);
-  cv.width = cv.offsetWidth*r; cv.height = cv.offsetHeight*r;
-  ctx.setTransform(r,0,0,r,0,0);
-}
-sizeCanvas();
-addEventListener("resize", sizeCanvas);
-/* waveform reacts to the cursor like touching an EQ, and to the beat when playing */
-var heroMX = null, heroSmooth = 0;
+/* ---------- CANVAS WAVEFORM (hero + booking) ---------- */
 var beatAudio = null, beatAnalyser = null, beatData = null, beatMix = 0;
-hero.addEventListener("mousemove", function(e){ heroMX = e.clientX; });
-hero.addEventListener("mouseleave", function(){ heroMX = null; });
+
+/* One renderer, reused by both sections. `host` is whatever the cursor is
+   tracked against, so each canvas reacts to the pointer over its own section. */
+function makeWave(canvas, host, reactive){
+  var ctx = canvas.getContext("2d"), mx = null, smooth = 0;
+  function size(){
+    var r = Math.min(devicePixelRatio||1, 2);
+    canvas.width = canvas.offsetWidth*r; canvas.height = canvas.offsetHeight*r;
+    ctx.setTransform(r,0,0,r,0,0);
+  }
+  size();
+  addEventListener("resize", size);
+  host.addEventListener("mousemove", function(e){ mx = e.clientX; });
+  host.addEventListener("mouseleave", function(){ mx = null; });
+
+  return function(t, data, mix){
+    var w = canvas.offsetWidth, h = canvas.offsetHeight;
+    if(!w || !h) return;
+    ctx.clearRect(0,0,w,h);
+    smooth += ((mx===null?0:1) - smooth)*.08;
+    var bars = Math.floor(w/16);
+    for(var i=0;i<bars;i++){
+      var x = i*16+8,
+          p = i/bars,
+          amp = (Math.sin(t*.9+i*.32)*.5+.5)*(Math.sin(t*.4+i*.11)*.5+.5);
+      if(mix > .01 && data){
+        var bin = Math.min(data.length-1, Math.floor(Math.pow(p,1.5)*data.length*.82));
+        amp = amp*(1-mix) + (data[bin]/255)*mix;
+      }
+      var boost = mx===null ? 0 : Math.exp(-((x-mx)*(x-mx))/33800)*smooth,
+          bh = 14 + Math.min(1, amp + boost*(1-amp*.4))*h*(reactive ? .30 : .22),
+          y = h*(reactive ? .58 : .5);
+      var g = ctx.createLinearGradient(0,y-bh,0,y+bh);
+      if(p<.5){ g.addColorStop(0,"rgba(255,68,56,"+(0.10+amp*.35)+")"); g.addColorStop(1,"rgba(255,176,59,"+(0.06+amp*.22)+")"); }
+      else{ g.addColorStop(0,"rgba(91,192,255,"+(0.10+amp*.35)+")"); g.addColorStop(1,"rgba(255,176,59,"+(0.06+amp*.22)+")"); }
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.roundRect(x-2.5, y-bh, 5, bh*2, 3);
+      ctx.fill();
+    }
+  };
+}
+
+var drawHero = makeWave(document.getElementById("wave"), hero, true);
+var contactEl = document.getElementById("contact"),
+    contactCv = document.getElementById("waveContact"),
+    drawContact = (contactEl && contactCv) ? makeWave(contactCv, contactEl, false) : null;
+
+var t = 0;
 function drawWave(){
-  var w = cv.offsetWidth, h = cv.offsetHeight;
-  ctx.clearRect(0,0,w,h);
-  heroSmooth += ((heroMX===null?0:1) - heroSmooth)*.08;
   var beatOn = beatAudio && !beatAudio.paused && beatAnalyser;
   beatMix += ((beatOn?1:0) - beatMix)*.07;
   if(beatOn){ beatAnalyser.getByteFrequencyData(beatData); }
-  var bars = Math.floor(w/16);
-  for(var i=0;i<bars;i++){
-    var x = i*16+8,
-        p = i/bars,
-        amp = (Math.sin(t*.9+i*.32)*.5+.5)*(Math.sin(t*.4+i*.11)*.5+.5);
-    if(beatMix > .01 && beatData){
-      var bin = Math.min(beatData.length-1, Math.floor(Math.pow(p,1.5)*beatData.length*.82));
-      amp = amp*(1-beatMix) + (beatData[bin]/255)*beatMix;
-    }
-    var boost = heroMX===null ? 0 : Math.exp(-((x-heroMX)*(x-heroMX))/33800)*heroSmooth,
-        bh = 14 + Math.min(1, amp + boost*(1-amp*.4))*h*.30,
-        y = h*.58;
-    var g = ctx.createLinearGradient(0,y-bh,0,y+bh);
-    if(p<.5){ g.addColorStop(0,"rgba(255,68,56,"+(0.10+amp*.35)+")"); g.addColorStop(1,"rgba(255,176,59,"+(0.06+amp*.22)+")"); }
-    else{ g.addColorStop(0,"rgba(91,192,255,"+(0.10+amp*.35)+")"); g.addColorStop(1,"rgba(255,176,59,"+(0.06+amp*.22)+")"); }
-    ctx.fillStyle = g;
-    var bw = 5;
-    ctx.beginPath();
-    ctx.roundRect(x-bw/2, y-bh, bw, bh*2, 3);
-    ctx.fill();
-  }
+  drawHero(t, beatData, beatMix);
+  if(drawContact) drawContact(t*.72, null, 0);   /* slower, calmer than the hero */
   t += .016;
   if(!reduced){ requestAnimationFrame(drawWave); }
 }
 drawWave();
+/* With reduced motion the loop paints once, so a resize would leave the
+   canvases blank — repaint them by hand instead. */
+if(reduced){
+  addEventListener("resize", function(){
+    drawHero(t, beatData, beatMix);
+    if(drawContact) drawContact(t*.72, null, 0);
+  });
+}
 
 /* ---------- REVEALS ---------- */
 var io = new IntersectionObserver(function(entries){
