@@ -1,0 +1,12 @@
+# macOS junk
+.DS_Store
+
+# Source album art — already optimized into img/, which is what the page loads
+Images/
+
+# Secrets. The Muso API key belongs in Netlify env vars, never in the repo.
+.env
+.env.*
+
+# Netlify CLI local state
+.netlify/
